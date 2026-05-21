@@ -1,4 +1,6 @@
-cat > .github/workflows/build-windows.yml <<'EOF'
+mkdir -p .github/workflows
+
+tee .github/workflows/build-windows.yml > /dev/null <<'EOF'
 name: Build Windows EXE
 
 on:
@@ -28,8 +30,8 @@ jobs:
       - name: Ver archivos del proyecto
         run: |
           dir
-          dir assets
-          dir sprites
+          if exist assets dir assets
+          if exist sprites dir sprites
 
       - name: Crear ejecutable
         run: |
