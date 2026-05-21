@@ -1,0 +1,35 @@
+name: Build Windows EXE
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Descargar proyecto
+        uses: actions/checkout@v5
+
+      - name: Instalar Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install -r requirements.txt
+
+      - name: Crear ejecutable
+        run: |
+          pyinstaller --onedir --windowed --name "HavanaRide" --add-data "assets;assets" main.py
+
+      - name: Subir resultado
+        uses: actions/upload-artifact@v5
+        with:
+          name: HavanaRide-Windows
+          path: dist/HavanaRide
