@@ -1,3 +1,4 @@
+cat > .github/workflows/build-windows.yml <<'EOF'
 name: Build Windows EXE
 
 on:
@@ -24,12 +25,19 @@ jobs:
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install -r requirements.txt
 
+      - name: Ver archivos del proyecto
+        run: |
+          dir
+          dir assets
+          dir sprites
+
       - name: Crear ejecutable
         run: |
-          pyinstaller --onedir --windowed --name "HavanaRide" --add-data "assets;assets" main.py
+          pyinstaller --clean --noconfirm --onedir --windowed --name "HavanaRide" --add-data "assets;assets" --add-data "sprites;sprites" main.py
 
       - name: Subir resultado
         uses: actions/upload-artifact@v5
         with:
           name: HavanaRide-Windows
           path: dist/HavanaRide
+EOF
