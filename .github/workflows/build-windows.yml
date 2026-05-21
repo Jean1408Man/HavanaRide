@@ -1,6 +1,3 @@
-mkdir -p .github/workflows
-
-tee .github/workflows/build-windows.yml > /dev/null <<'EOF'
 name: Build Windows EXE
 
 on:
@@ -42,4 +39,3 @@ jobs:
         with:
           name: HavanaRide-Windows
           path: dist/HavanaRide
-EOF
