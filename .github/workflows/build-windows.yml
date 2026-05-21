@@ -12,10 +12,10 @@ jobs:
 
     steps:
       - name: Descargar proyecto
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Instalar Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
@@ -25,17 +25,18 @@ jobs:
           python -m pip install -r requirements.txt
 
       - name: Ver archivos del proyecto
+        shell: pwsh
         run: |
-          dir
-          if exist assets dir assets
-          if exist sprites dir sprites
+          Get-ChildItem
+          if (Test-Path assets) { Get-ChildItem assets }
+          if (Test-Path sprites) { Get-ChildItem sprites }
 
       - name: Crear ejecutable
         run: |
           pyinstaller --clean --noconfirm --onedir --windowed --name "HavanaRide" --add-data "assets;assets" --add-data "sprites;sprites" main.py
 
       - name: Subir resultado
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
           name: HavanaRide-Windows
           path: dist/HavanaRide
